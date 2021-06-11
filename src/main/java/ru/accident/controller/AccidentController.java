@@ -8,33 +8,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.accident.model.Accident;
 import ru.accident.repository.AccidentMem;
+import ru.accident.service.AccidentService;
 
 @Controller
 public class AccidentController {
-    private final AccidentMem accidents;
+    private final AccidentService service;
+    private final AccidentMem store;
 
-    public AccidentController(AccidentMem accidents) {
-        this.accidents = accidents;
+    public AccidentController(AccidentService service, AccidentMem store) {
+        this.service = service;
+        this.store = store;
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("types", store.findAllAccidentTypes());
         return "accident/create";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident) {
-        if (accident.getId() != 0) {
-            accidents.update(accident);
-        } else {
-            accidents.create(accident);
-        }
+        service.saveAccident(accident);
         return "redirect:/";
     }
 
     @GetMapping("/edit")
     public String update(@RequestParam("id") int id, Model model) {
-        Accident current = accidents.getAccidentById(id);
+        model.addAttribute("types", store.findAllAccidentTypes());
+        Accident current = store.getAccidentById(id);
         model.addAttribute("accident", current);
         return "accident/edit";
     }
