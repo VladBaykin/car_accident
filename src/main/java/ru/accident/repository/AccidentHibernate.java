@@ -2,7 +2,6 @@ package ru.accident.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Repository;
 import ru.accident.model.Accident;
 import ru.accident.model.AccidentType;
 import ru.accident.model.Rule;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-@Repository
 public class AccidentHibernate implements Store {
 
     private final SessionFactory sf;
@@ -40,9 +38,9 @@ public class AccidentHibernate implements Store {
 
     @Override
     public List<Accident> findAllAccidents() {
-        return tx(session -> session.createQuery("select distinct a from Accident a " +
-                "join fetch a.type " +
-                "join fetch a.rules")
+        return tx(session -> session.createQuery("select distinct a from Accident a "
+                + "join fetch a.type "
+                + "join fetch a.rules")
                 .list()
         );
     }
@@ -74,9 +72,9 @@ public class AccidentHibernate implements Store {
     @Override
     public Accident getAccidentById(int id) {
         return tx(session -> (Accident) session
-                .createQuery("select distinct a from Accident a " +
-                        "left join fetch a.rules " +
-                        "where a.id=:x ")
+                .createQuery("select distinct a from Accident a "
+                        + "left join fetch a.rules "
+                        + "where a.id=:x ")
                 .setParameter("x", id)
                 .uniqueResult());
     }

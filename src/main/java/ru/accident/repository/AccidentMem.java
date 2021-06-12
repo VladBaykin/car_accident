@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AccidentMem {
+public class AccidentMem implements Store {
+
     private final Map<Integer, Accident> accidents = new HashMap<>();
     private final Map<Integer, AccidentType> accidentTypes = new HashMap<>();
     private final Map<Integer, Rule> rules = new HashMap<>();
@@ -31,12 +32,12 @@ public class AccidentMem {
         return new ArrayList<>(accidents.values());
     }
 
-    public List<Rule> findAllRules() {
-        return new ArrayList<>(rules.values());
-    }
-
     public List<AccidentType> findAllAccidentTypes() {
         return new ArrayList<>(accidentTypes.values());
+    }
+
+    public List<Rule> findAllRules() {
+        return new ArrayList<>(rules.values());
     }
 
     public void create(Accident accident) {

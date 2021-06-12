@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.accident.model.Accident;
-import ru.accident.service.AccidentService;
+import ru.accident.service.AccidentServiceJpa;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AccidentController {
-    private final AccidentService service;
+    private final AccidentServiceJpa service;
 
-    public AccidentController(AccidentService service) {
+    public AccidentController(AccidentServiceJpa service) {
         this.service = service;
     }
 
