@@ -18,6 +18,14 @@
           crossorigin="anonymous">
 </head>
 <body class="container pt-3">
+<div style="background-color: bisque">
+    Login as : ${user.username}
+    <a href="<c:url value="/logout"/>"> logout </a>
+</div>
+<div class="navBarCell1Rev">
+    <a href="<c:url value="/"/>">Main page</a>
+</div>
+<br/>
 <form action="<c:url value='/save'/>" method='POST'>
     <div class="form-group">
         <label for="nameAccident">Accident name:</label>
