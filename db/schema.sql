@@ -2,7 +2,12 @@ CREATE TABLE accident (
     id serial primary key,
     name varchar
 );
-insert into accident (name)
-values ('acc1'),
-       ('acc2'),
-       ('acc3');
+insert into accident_type (name)
+values ('Две машины'),
+       ('Машина и человек'),
+       ('Машина и велосипед');
+
+insert into accident_rule (name)
+values ('Rule1'),
+       ('Rule2'),
+       ('Rule3');

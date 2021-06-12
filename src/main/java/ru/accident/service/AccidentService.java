@@ -5,16 +5,18 @@ import org.springframework.stereotype.Service;
 import ru.accident.model.Accident;
 import ru.accident.model.AccidentType;
 import ru.accident.model.Rule;
-import ru.accident.repository.AccidentMem;
+import ru.accident.repository.AccidentHibernate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class AccidentService {
-    private final AccidentMem store;
+    private final AccidentHibernate store;
 
     @Autowired
-    public AccidentService(AccidentMem store) {
+    public AccidentService(AccidentHibernate store) {
         this.store = store;
     }
     public List<Accident> getAllAccidents() {
@@ -33,14 +35,18 @@ public class AccidentService {
         return store.getAccidentById(id);
     }
 
-    public void saveAccident(Accident accident) {
-        int id = accident.getId();
+    public void saveAccident(Accident accident, String[] rulesFromUI) {
+        List<Rule> rules = new ArrayList<>();
+        Arrays.stream(rulesFromUI)
+                .forEach(r -> rules.add(Rule.of(
+                        Integer.parseInt(r), store.getRuleById(Integer.parseInt(r)).getName()))
+                );
+        accident.setRules(rules);
         AccidentType type = accident.getType();
         String typeName = store.getAccidentTypeById(type.getId()).getName();
         type.setName(typeName);
         accident.setType(type);
-        accident.getRules().forEach(rule -> rule.setName(
-                store.getRuleById(rule.getId()).getName()));
+        int id = accident.getId();
         if (id != 0) {
             store.update(accident);
         } else {
